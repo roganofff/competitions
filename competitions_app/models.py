@@ -32,7 +32,7 @@ class Competition(UUIDMixin, NameMixin):
     competition_end = models.DateField(_('competition_end'), null=True, blank=True, default=get_datetime)
 
     class Meta:
-        db_table = '"competitions"."competition"'
+        db_table = '"crud_api"."competition"'
         ordering = ['name', 'competition_start', 'competition_end']
         verbose_name = _('Competition')
         verbose_name_plural = _('Competitions')
@@ -42,7 +42,7 @@ class Sport(UUIDMixin, NameMixin):
     description = models.TextField(_('description'), null=True, blank=True, max_length=MAX_LENGTH_DESCRIPTION)
 
     class Meta:
-        db_table = '"competitions"."sport"'
+        db_table = '"crud_api"."sport"'
         ordering = ['name']
         verbose_name = _('Sport')
         verbose_name_plural = _('Sports')
@@ -56,7 +56,18 @@ class Stage(UUIDMixin, NameMixin):
     sport_id = models.ForeignKey(Sport, verbose_name=_('sport_id'), on_delete=models.CASCADE)
 
     class Meta:
-        db_table = '"competitions"."stage"'
+        db_table = '"crud_api"."stage"'
         ordering = ['name', 'stage_date']
         verbose_name = _('Stage')
         verbose_name_plural = _('Stages')
+
+
+class CompetitionsSports(models.Model):
+    competition_id = models.ForeignKey(Competition, verbose_name=_('competition_id'), on_delete=models.CASCADE)
+    sport_id = models.ForeignKey(Sport, verbose_name=_('sport_id'), on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = '"crud_api"."competitions_sports"'
+        ordering = ['competition_id', 'sport_id']
+        verbose_name = _('relationship competition sports')
+        verbose_name_plural = _('relationships competition sports')

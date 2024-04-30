@@ -86,7 +86,7 @@ DATABASES = {
         'PORT': getenv('PG_PORT'),
         'HOST': getenv('PG_HOST'),
         'PASSWORD': getenv('PG_PASSWORD'),
-        'OPTIONS': {'options': '-c search_path=public,competitions'},
+        'OPTIONS': {'options': '-c search_path=public,crud_api'},
         # 'TEST': {
         #     'NAME': 'test_db',
         # },
