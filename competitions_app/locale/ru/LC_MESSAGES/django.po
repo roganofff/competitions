@@ -1,0 +1,105 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-30 06:06+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: competitions_app/models.py:20 competitions_app/models.py:28
+msgid "Date and time is bigger than current!"
+msgstr "Дата и время больше текущего!"
+
+#: competitions_app/models.py:41
+msgid "name"
+msgstr "имя"
+
+#: competitions_app/models.py:49
+msgid "created"
+msgstr "создано"
+
+#: competitions_app/models.py:61
+msgid "modified"
+msgstr "изменено"
+
+#: competitions_app/models.py:73
+msgid "competition_start"
+msgstr "начало соревнования"
+
+#: competitions_app/models.py:78
+msgid "competition_end"
+msgstr "конец соревнования"
+
+#: competitions_app/models.py:83
+msgid "sports"
+msgstr "спорт"
+
+#: competitions_app/models.py:91
+msgid "Competition"
+msgstr "Соревнование"
+
+#: competitions_app/models.py:92
+msgid "Competitions"
+msgstr "Соревнования"
+
+#: competitions_app/models.py:97
+msgid "description"
+msgstr "описание"
+
+#: competitions_app/models.py:102
+msgid "competitions"
+msgstr "соревнования"
+
+#: competitions_app/models.py:110
+msgid "Sport"
+msgstr "Спорт"
+
+#: competitions_app/models.py:111
+msgid "Sports"
+msgstr "Спорт"
+
+#: competitions_app/models.py:115
+msgid "stage_date"
+msgstr "дата этапа"
+
+#: competitions_app/models.py:116
+msgid "place"
+msgstr "место"
+
+#: competitions_app/models.py:118 competitions_app/models.py:139
+msgid "sport_id"
+msgstr "id спорта"
+
+#: competitions_app/models.py:126
+msgid "Stage"
+msgstr "Этап"
+
+#: competitions_app/models.py:127
+msgid "Stages"
+msgstr "Этапы"
+
+#: competitions_app/models.py:133
+msgid "competition_id"
+msgstr "id соревнования"
+
+#: competitions_app/models.py:146
+msgid "relationship competition sports"
+msgstr "отношение соревнований к спорту"
+
+#: competitions_app/models.py:147
+msgid "relationships competition sports"
+msgstr "отношения соревнований к спорту"
