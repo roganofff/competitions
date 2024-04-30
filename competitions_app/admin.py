@@ -6,15 +6,19 @@ class StageInline(admin.TabularInline):
     model = Stage
     extra = 1
 
+class CompetitionsSportsInline(admin.TabularInline):
+    model = CompetitionsSports
+    extra = 1
+
 @admin.register(Competition)
 class CompetitionAdmin(admin.ModelAdmin):
     model = Competition
-    inlines = (StageInline,)
+    inlines = (CompetitionsSportsInline,)
 
 @admin.register(Sport)
 class SportAdmin(admin.ModelAdmin):
     model = Sport
-    inlines = (StageInline,)
+    inlines = (StageInline, CompetitionsSportsInline)
 
 @admin.register(Stage)
 class StageAdmin(admin.ModelAdmin):

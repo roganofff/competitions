@@ -1,0 +1,103 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-30 06:06+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: competitions_app/models.py:20 competitions_app/models.py:28
+msgid "Date and time is bigger than current!"
+msgstr ""
+
+#: competitions_app/models.py:41
+msgid "name"
+msgstr ""
+
+#: competitions_app/models.py:49
+msgid "created"
+msgstr ""
+
+#: competitions_app/models.py:61
+msgid "modified"
+msgstr ""
+
+#: competitions_app/models.py:73
+msgid "competition_start"
+msgstr ""
+
+#: competitions_app/models.py:78
+msgid "competition_end"
+msgstr ""
+
+#: competitions_app/models.py:83
+msgid "sports"
+msgstr ""
+
+#: competitions_app/models.py:91
+msgid "Competition"
+msgstr ""
+
+#: competitions_app/models.py:92
+msgid "Competitions"
+msgstr ""
+
+#: competitions_app/models.py:97
+msgid "description"
+msgstr ""
+
+#: competitions_app/models.py:102
+msgid "competitions"
+msgstr ""
+
+#: competitions_app/models.py:110
+msgid "Sport"
+msgstr ""
+
+#: competitions_app/models.py:111
+msgid "Sports"
+msgstr ""
+
+#: competitions_app/models.py:115
+msgid "stage_date"
+msgstr ""
+
+#: competitions_app/models.py:116
+msgid "place"
+msgstr ""
+
+#: competitions_app/models.py:118 competitions_app/models.py:139
+msgid "sport_id"
+msgstr ""
+
+#: competitions_app/models.py:126
+msgid "Stage"
+msgstr ""
+
+#: competitions_app/models.py:127
+msgid "Stages"
+msgstr ""
+
+#: competitions_app/models.py:133
+msgid "competition_id"
+msgstr ""
+
+#: competitions_app/models.py:146
+msgid "relationship competition sports"
+msgstr ""
+
+#: competitions_app/models.py:147
+msgid "relationships competition sports"
+msgstr ""
