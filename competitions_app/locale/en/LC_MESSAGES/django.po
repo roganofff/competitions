@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-30 06:06+0000\n"
+"POT-Creation-Date: 2024-05-01 15:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,86 +18,94 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: competitions_app/models.py:20 competitions_app/models.py:28
+#: competitions_app/models.py:21 competitions_app/models.py:29
 msgid "Date and time is bigger than current!"
 msgstr ""
 
-#: competitions_app/models.py:41
+#: competitions_app/models.py:42
 msgid "name"
 msgstr ""
 
-#: competitions_app/models.py:49
+#: competitions_app/models.py:50
 msgid "created"
 msgstr ""
 
-#: competitions_app/models.py:61
+#: competitions_app/models.py:62
 msgid "modified"
 msgstr ""
 
-#: competitions_app/models.py:73
+#: competitions_app/models.py:74
 msgid "competition_start"
 msgstr ""
 
-#: competitions_app/models.py:78
+#: competitions_app/models.py:79
 msgid "competition_end"
 msgstr ""
 
-#: competitions_app/models.py:83
+#: competitions_app/models.py:84
 msgid "sports"
 msgstr ""
 
-#: competitions_app/models.py:91
+#: competitions_app/models.py:92
 msgid "Competition"
 msgstr ""
 
-#: competitions_app/models.py:92
+#: competitions_app/models.py:93
 msgid "Competitions"
 msgstr ""
 
-#: competitions_app/models.py:97
+#: competitions_app/models.py:98
+msgid "Competition cannot end before it's start."
+msgstr ""
+
+#: competitions_app/models.py:105
 msgid "description"
 msgstr ""
 
-#: competitions_app/models.py:102
+#: competitions_app/models.py:110
 msgid "competitions"
 msgstr ""
 
-#: competitions_app/models.py:110
+#: competitions_app/models.py:118
 msgid "Sport"
 msgstr ""
 
-#: competitions_app/models.py:111
+#: competitions_app/models.py:119
 msgid "Sports"
 msgstr ""
 
-#: competitions_app/models.py:115
+#: competitions_app/models.py:123
 msgid "stage_date"
 msgstr ""
 
-#: competitions_app/models.py:116
+#: competitions_app/models.py:124
 msgid "place"
 msgstr ""
 
-#: competitions_app/models.py:118 competitions_app/models.py:139
+#: competitions_app/models.py:126 competitions_app/models.py:154
 msgid "sport_id"
 msgstr ""
 
-#: competitions_app/models.py:126
+#: competitions_app/models.py:134
 msgid "Stage"
 msgstr ""
 
-#: competitions_app/models.py:127
+#: competitions_app/models.py:135
 msgid "Stages"
 msgstr ""
 
-#: competitions_app/models.py:133
+#: competitions_app/models.py:140
+msgid "Competition's stage cannot be held before the competition."
+msgstr ""
+
+#: competitions_app/models.py:148
 msgid "competition_id"
 msgstr ""
 
-#: competitions_app/models.py:146
+#: competitions_app/models.py:161
 msgid "relationship competition sports"
 msgstr ""
 
-#: competitions_app/models.py:147
+#: competitions_app/models.py:162
 msgid "relationships competition sports"
 msgstr ""
