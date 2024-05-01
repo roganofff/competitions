@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-30 06:06+0000\n"
+"POT-Creation-Date: 2024-05-01 15:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,86 +20,94 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: competitions_app/models.py:20 competitions_app/models.py:28
+#: competitions_app/models.py:21 competitions_app/models.py:29
 msgid "Date and time is bigger than current!"
 msgstr "Дата и время больше текущего!"
 
-#: competitions_app/models.py:41
+#: competitions_app/models.py:42
 msgid "name"
 msgstr "имя"
 
-#: competitions_app/models.py:49
+#: competitions_app/models.py:50
 msgid "created"
 msgstr "создано"
 
-#: competitions_app/models.py:61
+#: competitions_app/models.py:62
 msgid "modified"
 msgstr "изменено"
 
-#: competitions_app/models.py:73
+#: competitions_app/models.py:74
 msgid "competition_start"
 msgstr "начало соревнования"
 
-#: competitions_app/models.py:78
+#: competitions_app/models.py:79
 msgid "competition_end"
 msgstr "конец соревнования"
 
-#: competitions_app/models.py:83
+#: competitions_app/models.py:84
 msgid "sports"
 msgstr "спорт"
 
-#: competitions_app/models.py:91
+#: competitions_app/models.py:92
 msgid "Competition"
 msgstr "Соревнование"
 
-#: competitions_app/models.py:92
+#: competitions_app/models.py:93
 msgid "Competitions"
 msgstr "Соревнования"
 
-#: competitions_app/models.py:97
+#: competitions_app/models.py:98
+msgid "Competition cannot end before it's start."
+msgstr "Соревнование не может закончится, не начавшись."
+
+#: competitions_app/models.py:105
 msgid "description"
 msgstr "описание"
 
-#: competitions_app/models.py:102
+#: competitions_app/models.py:110
 msgid "competitions"
 msgstr "соревнования"
 
-#: competitions_app/models.py:110
+#: competitions_app/models.py:118
 msgid "Sport"
 msgstr "Спорт"
 
-#: competitions_app/models.py:111
+#: competitions_app/models.py:119
 msgid "Sports"
 msgstr "Спорт"
 
-#: competitions_app/models.py:115
+#: competitions_app/models.py:123
 msgid "stage_date"
 msgstr "дата этапа"
 
-#: competitions_app/models.py:116
+#: competitions_app/models.py:124
 msgid "place"
 msgstr "место"
 
-#: competitions_app/models.py:118 competitions_app/models.py:139
+#: competitions_app/models.py:126 competitions_app/models.py:154
 msgid "sport_id"
 msgstr "id спорта"
 
-#: competitions_app/models.py:126
+#: competitions_app/models.py:134
 msgid "Stage"
 msgstr "Этап"
 
-#: competitions_app/models.py:127
+#: competitions_app/models.py:135
 msgid "Stages"
 msgstr "Этапы"
 
-#: competitions_app/models.py:133
+#: competitions_app/models.py:140
+msgid "Competition's stage cannot be held before the competition."
+msgstr "Этап соревнования не может проводится перед соревнованием."
+
+#: competitions_app/models.py:148
 msgid "competition_id"
 msgstr "id соревнования"
 
-#: competitions_app/models.py:146
+#: competitions_app/models.py:161
 msgid "relationship competition sports"
 msgstr "отношение соревнований к спорту"
 
-#: competitions_app/models.py:147
+#: competitions_app/models.py:162
 msgid "relationships competition sports"
 msgstr "отношения соревнований к спорту"

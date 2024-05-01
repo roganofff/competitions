@@ -1,5 +1,6 @@
 from datetime import date, datetime, timezone
 from django.db import models
+from django.db.models import CheckConstraint, Q, F
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from uuid import uuid4
@@ -83,13 +84,20 @@ class Competition(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
     sports = models.ManyToManyField('Sport', verbose_name=_('sports'), through='CompetitionsSports')
 
     def __str__(self) -> str:
-        return f'{self.name}: {self.competition_start}--{self.competition_end}.'
+        return f'{self.name}: {self.competition_start}—{self.competition_end}.'
 
     class Meta:
         db_table = '"crud_api"."competition"'
         ordering = ['name', 'competition_start', 'competition_end']
         verbose_name = _('Competition')
         verbose_name_plural = _('Competitions')
+        constraints = [
+            CheckConstraint(
+                check = Q(competition_end__gt=F('competition_start')), 
+                name = 'check_start_date',
+                violation_error_message = _("Competition cannot end before it's start."),
+            ),
+        ]
 
 
 class Sport(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
@@ -125,6 +133,13 @@ class Stage(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
         ordering = ['name', 'stage_date']
         verbose_name = _('Stage')
         verbose_name_plural = _('Stages')
+        constraints = [
+            CheckConstraint(
+                check = Q(stage_date__gt=F('"Competition"."competition_start"')), 
+                name = 'check_stage_date',
+                violation_error_message = _("Competition's stage cannot be held before the competition."),
+            ),
+        ]
 
 
 class CompetitionsSports(CreatedMixin, ModifiedMixin):
