@@ -18,7 +18,12 @@ class CompetitionAdmin(admin.ModelAdmin):
 @admin.register(Sport)
 class SportAdmin(admin.ModelAdmin):
     model = Sport
-    inlines = (StageInline, CompetitionsSportsInline)
+    inlines = (CompetitionsSportsInline,)
+
+@admin.register(CompetitionsSports)
+class CompetitionsSportsAdmin(admin.ModelAdmin):
+    model = CompetitionsSports
+    inlines = (StageInline,)
 
 @admin.register(Stage)
 class StageAdmin(admin.ModelAdmin):

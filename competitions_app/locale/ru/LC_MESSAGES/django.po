@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-01 15:22+0300\n"
+"POT-Creation-Date: 2024-05-02 09:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,25 +84,39 @@ msgstr "дата этапа"
 msgid "place"
 msgstr "место"
 
-#: competitions_app/models.py:126 competitions_app/models.py:154
-msgid "sport_id"
+#: competitions_app/models.py:126
+#, fuzzy
+#| msgid "sport_id"
+msgid "comp_sport_id"
 msgstr "id спорта"
 
-#: competitions_app/models.py:134
+#: competitions_app/models.py:133
+#, fuzzy
+#| msgid "Competition's stage cannot be held before the competition."
+msgid "Stage cannot be held before the competition start."
+msgstr "Этап соревнования не может проводится перед соревнованием."
+
+#: competitions_app/models.py:135
+#, fuzzy
+#| msgid "Competition's stage cannot be held before the competition."
+msgid "Stage cannot be held after the competition start."
+msgstr "Этап соревнования не может проводится перед соревнованием."
+
+#: competitions_app/models.py:141
 msgid "Stage"
 msgstr "Этап"
 
-#: competitions_app/models.py:135
+#: competitions_app/models.py:142
 msgid "Stages"
 msgstr "Этапы"
-
-#: competitions_app/models.py:140
-msgid "Competition's stage cannot be held before the competition."
-msgstr "Этап соревнования не может проводится перед соревнованием."
 
 #: competitions_app/models.py:148
 msgid "competition_id"
 msgstr "id соревнования"
+
+#: competitions_app/models.py:154
+msgid "sport_id"
+msgstr "id спорта"
 
 #: competitions_app/models.py:161
 msgid "relationship competition sports"
