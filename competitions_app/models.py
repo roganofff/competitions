@@ -123,26 +123,26 @@ class Stage(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
     stage_date = models.DateField(_('stage_date'), null=False, blank=False, default=get_datetime)
     place = models.TextField(_('place'), null=True, blank=True, max_length=MAX_LENGTH_PLACE)
     
-    sport_id = models.ForeignKey(Sport, verbose_name=_('sport_id'), on_delete=models.CASCADE)
+    comp_sport_id = models.ForeignKey('CompetitionsSports', verbose_name=_('comp_sport_id'), on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f'{self.name}: {self.place}({self.stage_date}).'
+
+    def clean(self) -> None:
+        if self.stage_date < self.comp_sport_id.competition_id.competition_start:
+            raise ValidationError(_('Stage cannot be held before the competition start.'))
+        if self.stage_date > self.comp_sport_id.competition_id.competition_end:
+            raise ValidationError(_('Stage cannot be held after the competition start.'))
+        return super().clean()
 
     class Meta:
         db_table = '"crud_api"."stage"'
         ordering = ['name', 'stage_date']
         verbose_name = _('Stage')
         verbose_name_plural = _('Stages')
-        constraints = [
-            CheckConstraint(
-                check = Q(stage_date__gt=F('"Competition"."competition_start"')), 
-                name = 'check_stage_date',
-                violation_error_message = _("Competition's stage cannot be held before the competition."),
-            ),
-        ]
 
 
-class CompetitionsSports(CreatedMixin, ModifiedMixin):
+class CompetitionsSports(UUIDMixin, CreatedMixin, ModifiedMixin):
     competition_id = models.ForeignKey(
         Competition,
         verbose_name=_('competition_id'),
