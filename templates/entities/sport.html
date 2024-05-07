@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Sport page</h1>
+
+    {% if sport %}
+    <ul>
+
+      <li>
+        <a>Name: {{ sport.name }}</a><br>
+        <a>Description: {{ sport.description }}</a><br>
+      </li>
+    </ul>
+
+    {% else %}
+      <p>Sport not found..</p>
+    {% endif %}
+    
+    <div>
+    {% if client_subscribed_to_sport %}
+        You've already subscribed to sport! <br>
+        You can watch it now!
+    {% else %}
+      Your have not subscribed for this one yet! <br>
+      You can <a href="{% url 'buy' %}?id={{book.id}}">buy it now</a>! <!--TODO: url 'subscribe' instead of 'buy'-->
+    {% endif %}
+    </div>
+
+{% endblock %}

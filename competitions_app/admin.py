@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .models import Competition, CompetitionsSports, Sport, Stage
 
+
 class StageInline(admin.TabularInline):
     model = Stage
     extra = 1
