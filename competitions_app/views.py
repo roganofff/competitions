@@ -8,7 +8,7 @@ from rest_framework.permissions import BasePermission
 from rest_framework.viewsets import ModelViewSet
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
-from .forms import Registration
+from .forms import AddFundsForm, Registration
 from .models import Competition, Sport, Stage, Client
 from .serializers import (CompetitionSerializer, SportSerializer,
                           StageSerializer)
@@ -112,3 +112,31 @@ CompetitionViewSet = create_viewset(Competition, CompetitionSerializer)
 SportViewSet = create_viewset(Sport, SportSerializer)
 StageViewSet = create_viewset(Stage, StageSerializer)
 
+
+def profile(request):
+    client = Client.objects.get(user=request.user)
+    form_errors = ''
+    if request.method == 'POST':
+        form = AddFundsForm(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data.get('amount', None)
+            if amount:
+                client.money += amount
+                client.save()
+            else:
+                form_errors = 'An error occured, money amount was not specified!'
+    else:
+        form = AddFundsForm()
+    
+    client_attrs = 'username', 'first_name', 'last_name', 'money'
+    client_data = {attr: getattr(client, attr) for attr in client_attrs}
+    return render(
+        request,
+        'pages/profile.html',
+        {
+            'client_data': client_data,
+            'form': form,
+            'form_errors': form_errors,
+            'client_books': client.books.all(),
+        }
+    )

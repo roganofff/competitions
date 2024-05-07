@@ -7,22 +7,22 @@ class CompetitionSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Competition
         fields = [
-            'id', 'competition_start', 'competition_end',
-            'created', 'modified',
+            'id', 'name', 'competition_start', 'competition_end', 'sports',
+            'created', 'modified'
         ]
 
 class SportSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Sport
         fields = [
-            'id', 'description',
-            'created', 'modified',
+            'id', 'name', 'description', 'competitions',
+            'created', 'modified'
         ]
 
 class StageSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Stage
         fields = [
-            'id', 'stage_date', 'place',
-            'created', 'modified',
+            'id', 'name', 'place', 'stage_date',
+            'created', 'modified'
         ]
