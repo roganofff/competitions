@@ -4,9 +4,10 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
-router.register(r'competitions', views.CompetitionViewSet)
-router.register(r'sports', views.SportViewSet)
-router.register(r'stages', views.StageViewSet)
+router.register(r'competitions', views.competition_viewset)
+router.register(r'sports', views.sport_viewset)
+router.register(r'stages', views.stage_viewset)
+router.register(r'competitionssports', views.competitionssports_viewset)
 
 urlpatterns = [
     path('', views.home_page, name='homepage'),

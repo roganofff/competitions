@@ -178,6 +178,7 @@ class Client(UUIDMixin, CreatedMixin, ModifiedMixin):
         validators=[_check_positive],
     )
     user = models.OneToOneField(AUTH_USER_MODEL, unique=True, verbose_name=_('user'), on_delete=models.CASCADE)
+    token = models.CharField(max_length=100, blank=True)
     sports = models.ManyToManyField(Sport, through='SportClient', verbose_name=_('sports'))
 
     class Meta:

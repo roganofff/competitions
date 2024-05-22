@@ -9,9 +9,9 @@ from rest_framework.viewsets import ModelViewSet
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
 from .forms import AddFundsForm, Registration
-from .models import Competition, Sport, Stage, Client
+from .models import Competition, Sport, Stage, Client, CompetitionsSports
 from .serializers import (CompetitionSerializer, SportSerializer,
-                          StageSerializer)
+                          StageSerializer, CompetitionsSportsSerializer)
 
 
 def home_page(request):
@@ -108,9 +108,10 @@ def create_viewset(model_class, serializer):
 
     return CustomViewSet
 
-CompetitionViewSet = create_viewset(Competition, CompetitionSerializer)
-SportViewSet = create_viewset(Sport, SportSerializer)
-StageViewSet = create_viewset(Stage, StageSerializer)
+competition_viewset = create_viewset(Competition, CompetitionSerializer)
+sport_viewset = create_viewset(Sport, SportSerializer)
+stage_viewset = create_viewset(Stage, StageSerializer)
+competitionssports_viewset = create_viewset(CompetitionsSports, CompetitionsSportsSerializer)
 
 
 def profile(request):
