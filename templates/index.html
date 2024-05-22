@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1>2xSTAVKA. Home</h1>
+
+  <p>Welcome to <em>2xSTAVKA</em>, a very basic Django website developed as a tutorial example</p>
+
+<h2>Dynamic content</h2>
+
+  <p>Our calendar has the following record counts:</p>
+  <ul>
+    <li><strong>Competitions:</strong> {{ competitions }}</li>
+    <li><strong>Sports:</strong> {{ sports }}</li>
+    <li><strong>Stages:</strong> {{ stages }}</li>
+  </ul>
+
+{% endblock %}

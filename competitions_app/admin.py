@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Competition, CompetitionsSports, Sport, Stage
+from .models import Competition, CompetitionsSports, Sport, Stage, Client, SportClient
+
 
 class StageInline(admin.TabularInline):
     model = Stage
@@ -9,6 +10,15 @@ class StageInline(admin.TabularInline):
 class CompetitionsSportsInline(admin.TabularInline):
     model = CompetitionsSports
     extra = 1
+
+class SportClientInline(admin.TabularInline):
+    model = SportClient
+    extra = 1
+
+@admin.register(Client)
+class ClientAdmin(admin.ModelAdmin):
+    model = Client
+    inlines = (SportClientInline,)
 
 @admin.register(Competition)
 class CompetitionAdmin(admin.ModelAdmin):

@@ -19,10 +19,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('name', models.TextField(max_length=100, verbose_name='name')),
-                ('created', models.DateTimeField(blank=True, default=competitions_app.models.get_datetime, null=True, validators=[competitions_app.models._check_created], verbose_name='created')),
-                ('modified', models.DateTimeField(blank=True, default=competitions_app.models.get_datetime, null=True, validators=[competitions_app.models._check_modified], verbose_name='modified')),
-                ('competition_start', models.DateField(blank=True, default=competitions_app.models.get_datetime, null=True, verbose_name='competition_start')),
-                ('competition_end', models.DateField(blank=True, default=competitions_app.models.get_datetime, null=True, verbose_name='competition_end')),
+                ('created', models.DateTimeField(blank=True, default=competitions_app.models._get_datetime, null=True, validators=[competitions_app.models._check_created], verbose_name='created')),
+                ('modified', models.DateTimeField(blank=True, default=competitions_app.models._get_datetime, null=True, validators=[competitions_app.models._check_modified], verbose_name='modified')),
+                ('competition_start', models.DateField(blank=True, default=competitions_app.models._get_datetime, null=True, verbose_name='competition_start')),
+                ('competition_end', models.DateField(blank=True, default=competitions_app.models._get_datetime, null=True, verbose_name='competition_end')),
             ],
             options={
                 'verbose_name': 'Competition',
@@ -35,8 +35,8 @@ class Migration(migrations.Migration):
             name='CompetitionsSports',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created', models.DateTimeField(blank=True, default=competitions_app.models.get_datetime, null=True, validators=[competitions_app.models._check_created], verbose_name='created')),
-                ('modified', models.DateTimeField(blank=True, default=competitions_app.models.get_datetime, null=True, validators=[competitions_app.models._check_modified], verbose_name='modified')),
+                ('created', models.DateTimeField(blank=True, default=competitions_app.models._get_datetime, null=True, validators=[competitions_app.models._check_created], verbose_name='created')),
+                ('modified', models.DateTimeField(blank=True, default=competitions_app.models._get_datetime, null=True, validators=[competitions_app.models._check_modified], verbose_name='modified')),
                 ('competition_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='competitions_app.competition', verbose_name='competition_id')),
             ],
             options={
@@ -51,8 +51,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('name', models.TextField(max_length=100, verbose_name='name')),
-                ('created', models.DateTimeField(blank=True, default=competitions_app.models.get_datetime, null=True, validators=[competitions_app.models._check_created], verbose_name='created')),
-                ('modified', models.DateTimeField(blank=True, default=competitions_app.models.get_datetime, null=True, validators=[competitions_app.models._check_modified], verbose_name='modified')),
+                ('created', models.DateTimeField(blank=True, default=competitions_app.models._get_datetime, null=True, validators=[competitions_app.models._check_created], verbose_name='created')),
+                ('modified', models.DateTimeField(blank=True, default=competitions_app.models._get_datetime, null=True, validators=[competitions_app.models._check_modified], verbose_name='modified')),
                 ('description', models.TextField(blank=True, max_length=200, null=True, verbose_name='description')),
                 ('competitions', models.ManyToManyField(through='competitions_app.CompetitionsSports', to='competitions_app.competition', verbose_name='competitions')),
             ],
@@ -78,9 +78,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('name', models.TextField(max_length=100, verbose_name='name')),
-                ('created', models.DateTimeField(blank=True, default=competitions_app.models.get_datetime, null=True, validators=[competitions_app.models._check_created], verbose_name='created')),
-                ('modified', models.DateTimeField(blank=True, default=competitions_app.models.get_datetime, null=True, validators=[competitions_app.models._check_modified], verbose_name='modified')),
-                ('stage_date', models.DateField(default=competitions_app.models.get_datetime, verbose_name='stage_date')),
+                ('created', models.DateTimeField(blank=True, default=competitions_app.models._get_datetime, null=True, validators=[competitions_app.models._check_created], verbose_name='created')),
+                ('modified', models.DateTimeField(blank=True, default=competitions_app.models._get_datetime, null=True, validators=[competitions_app.models._check_modified], verbose_name='modified')),
+                ('stage_date', models.DateField(default=competitions_app.models._get_datetime, verbose_name='stage_date')),
                 ('place', models.TextField(blank=True, max_length=150, null=True, verbose_name='place')),
                 ('comp_sport_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='competitions_app.competitionssports', verbose_name='comp_sport_id')),
             ],

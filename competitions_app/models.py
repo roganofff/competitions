@@ -1,9 +1,11 @@
-from datetime import date, datetime, timezone
-from django.db import models
-from django.db.models import CheckConstraint, Q, F
-from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
+from datetime import datetime, timezone
 from uuid import uuid4
+
+from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models import CheckConstraint, F, Q
+from django.utils.translation import gettext_lazy as _
+from django.conf.global_settings import AUTH_USER_MODEL
 
 
 MAX_LENGTH_NAME = 100
@@ -11,12 +13,12 @@ MAX_LENGTH_DESCRIPTION = 200
 MAX_LENGTH_PLACE = 150
 
 
-def get_datetime():
+def _get_datetime():
     return datetime.now(timezone.utc)
 
 
 def _check_created(dt: datetime):
-    if dt > get_datetime():
+    if dt > _get_datetime():
         raise ValidationError(
             _('Date and time is bigger than current!'),
             params={'created': dt},
@@ -24,11 +26,16 @@ def _check_created(dt: datetime):
 
 
 def _check_modified(dt: datetime):
-    if dt > get_datetime():
+    if dt > _get_datetime():
         raise ValidationError(
             _('Date and time is bigger than current!'),
             params={'modified': dt},
         )
+
+
+def _check_positive(number) -> None:
+    if number < 0:
+        raise ValidationError('value should be equal or greater than zero')
 
 
 class UUIDMixin(models.Model):
@@ -49,7 +56,7 @@ class CreatedMixin(models.Model):
     created = models.DateTimeField(
         _('created'),
         null=True, blank=True,
-        default=get_datetime,
+        default=_get_datetime,
         validators=[_check_created],
     )
 
@@ -61,7 +68,7 @@ class ModifiedMixin(models.Model):
     modified = models.DateTimeField(
         _('modified'),
         null=True, blank=True,
-        default=get_datetime,
+        default=_get_datetime,
         validators=[_check_modified]
     )
 
@@ -73,12 +80,12 @@ class Competition(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
     competition_start = models.DateField(
         _('competition_start'),
         null=True, blank=True,
-        default=get_datetime,
+        default=_get_datetime,
     )
     competition_end = models.DateField(
         _('competition_end'),
         null=True, blank=True,
-        default=get_datetime,
+        default=_get_datetime,
     )
 
     sports = models.ManyToManyField('Sport', verbose_name=_('sports'), through='CompetitionsSports')
@@ -120,7 +127,7 @@ class Sport(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
 
 
 class Stage(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
-    stage_date = models.DateField(_('stage_date'), null=False, blank=False, default=get_datetime)
+    stage_date = models.DateField(_('stage_date'), null=False, blank=False, default=_get_datetime)
     place = models.TextField(_('place'), null=True, blank=True, max_length=MAX_LENGTH_PLACE)
     
     comp_sport_id = models.ForeignKey('CompetitionsSports', verbose_name=_('comp_sport_id'), on_delete=models.CASCADE)
@@ -160,3 +167,46 @@ class CompetitionsSports(UUIDMixin, CreatedMixin, ModifiedMixin):
         ordering = ['competition_id', 'sport_id']
         verbose_name = _('relationship competition sports')
         verbose_name_plural = _('relationships competition sports')
+
+
+class Client(UUIDMixin, CreatedMixin, ModifiedMixin):
+    money = models.DecimalField(
+        verbose_name=_('money'),
+        decimal_places=2,
+        max_digits=11,
+        default=0,
+        validators=[_check_positive],
+    )
+    user = models.OneToOneField(AUTH_USER_MODEL, unique=True, verbose_name=_('user'), on_delete=models.CASCADE)
+    token = models.CharField(max_length=100, blank=True)
+    sports = models.ManyToManyField(Sport, through='SportClient', verbose_name=_('sports'))
+
+    class Meta:
+        db_table = '"crud_api"."client"'
+        verbose_name = _('client')
+        verbose_name_plural = _('clients')
+
+    @property
+    def username(self) -> str:
+        return self.user.username
+
+    @property
+    def first_name(self) -> str:
+        return self.user.first_name
+    
+    @property
+    def last_name(self) -> str:
+        return self.user.last_name
+    
+    def __str__(self) -> str:
+        return f'{self.username} ({self.first_name} {self.last_name})'
+
+
+class SportClient(UUIDMixin, CreatedMixin, ModifiedMixin):
+    sport = models.ForeignKey(Sport, verbose_name=_('sport'), on_delete=models.CASCADE)
+    cleint = models.ForeignKey(Client, verbose_name=_('client'), on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = '"crud_api"."sport_client"'
+        verbose_name = _('relationship sport client')
+        verbose_name_plural = _('relationships sport client')
