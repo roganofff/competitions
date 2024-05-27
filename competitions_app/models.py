@@ -130,16 +130,21 @@ class Stage(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
     stage_date = models.DateField(_('stage_date'), null=False, blank=False, default=_get_datetime)
     place = models.TextField(_('place'), null=True, blank=True, max_length=MAX_LENGTH_PLACE)
     
-    comp_sport_id = models.ForeignKey('CompetitionsSports', verbose_name=_('comp_sport_id'), on_delete=models.CASCADE)
+    comp_sport = models.ForeignKey(
+        'CompetitionsSports',
+        verbose_name=_('comp_sport'),
+        on_delete=models.CASCADE,
+        null=True, blank=True,
+    )
 
     def __str__(self) -> str:
         return f'{self.name}: {self.place}({self.stage_date}).'
 
     def clean(self) -> None:
-        if self.stage_date < self.comp_sport_id.competition_id.competition_start:
+        if self.stage_date < self.comp_sport.competition_id.competition_start:
             raise ValidationError(_('Stage cannot be held before the competition start.'))
-        if self.stage_date > self.comp_sport_id.competition_id.competition_end:
-            raise ValidationError(_('Stage cannot be held after the competition start.'))
+        if self.stage_date > self.comp_sport.competition_id.competition_end:
+            raise ValidationError(_('Stage cannot be held after the competition end.'))
         return super().clean()
 
     class Meta:
