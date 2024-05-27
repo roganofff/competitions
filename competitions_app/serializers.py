@@ -21,3 +21,4 @@ class StageSerializer(HyperlinkedModelSerializer):
 class CompetitionsSportsSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = CompetitionsSports
+        fields = '__all__'

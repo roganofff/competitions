@@ -97,9 +97,9 @@ DATABASES = {
         'HOST': getenv('PG_HOST'),
         'PASSWORD': getenv('PG_PASSWORD'),
         'OPTIONS': {'options': '-c search_path=public,crud_api'},
-        # 'TEST': {
-        #     'NAME': 'test_db',
-        # },
+        'TEST': {
+            'NAME': 'test_db',
+        },
     }
 }
 
@@ -146,3 +146,5 @@ LOCALE_PATH = 'competitions_app/locale'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TEST_RUNNER = 'tests.runner.PostgresSchemaRunner'
