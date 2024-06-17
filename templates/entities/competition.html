@@ -4,12 +4,16 @@
     <h1>Competition page</h1>
 
     {% if competition %}
-    <ul>
+    <p>{{ competition.name }}</p> {{ competition.competition_start }}-{{ competition.competition_end }}
 
-      <li>
-        <a>{{ competition.name }}</a> {{ competition.competition_start }} {{ competition.competition_end }}
-      </li>
-    </ul>
+    <h2>Предстоящие события:</h2>
+      <ul>
+        {% for sport in sports %}
+          <li>
+            <a href="{% url 'sport'%}?id={{sport.id}}">{{ sport.name }}</a> ({{sport.description}})
+          </li>
+        {% endfor %}
+      </ul>
 
     {% else %}
       <p>Competition not found..</p>

@@ -1,4 +1,5 @@
 from django.urls import include, path
+from django.contrib.auth.views import LoginView
 from rest_framework.routers import DefaultRouter
 
 from . import views
@@ -22,4 +23,6 @@ urlpatterns = [
     path('api/', include(router.urls), name='api'),
     path('api-auth/', include('rest_framework.urls'), name='rest_framework'),
     path('profile/', views.profile, name='profile'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 ]

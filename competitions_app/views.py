@@ -1,14 +1,15 @@
 from typing import Any
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from django.core.paginator import Paginator
+from django.contrib.auth import logout, login, authenticate
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import BasePermission
 from rest_framework.viewsets import ModelViewSet
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
-from .forms import AddFundsForm, Registration
+from .forms import AddFundsForm, LoginForm, Registration
 from .models import Competition, Sport, Stage, Client, CompetitionsSports
 from .serializers import (CompetitionSerializer, SportSerializer,
                           StageSerializer, CompetitionsSportsSerializer)
@@ -22,7 +23,7 @@ def home_page(request):
             'competitions': Competition.objects.count(),
             'sports': Sport.objects.count(),
             'stages': Stage.objects.count(),
-        }
+        },
     )
 
 def create_list_view(model_class, plural_name, template):
@@ -52,9 +53,13 @@ def create_view(model_class, context_name, template):
         id_ = request.GET.get('id', None)
         target = model_class.objects.get(id=id_) if id_ else None
         context = {context_name: target}
-        if model_class == Sport:
-            client = Client.objects.get(user=request.user)
-            context['client_subscribed_to_sport'] = target in client.sports.all()
+        if model_class == Competition:
+            next_targets = Sport.objects.all().filter(competitions=target)
+            context['sports'] = next_targets
+        elif model_class == Sport:
+            comps_sport = CompetitionsSports.objects.all().filter(sport_id=target)
+            next_targets = [Stage.objects.all().filter(comp_sport=comp_sport) for comp_sport in comps_sport]
+            context['query_stages'] = next_targets
         return render(
             request,
             template,
@@ -87,6 +92,48 @@ def register(request):
             'errors': errors,
         }
     )
+
+
+def login_view(request):
+    """
+    View function for handling the login process.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The rendered login page with the form and error message.
+    """
+    error_message = None
+
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            login_data = form.cleaned_data
+            user = authenticate(
+                request,
+                username=login_data['username'],
+                password=login_data['password'],
+            )
+            if user is not None:
+                login(request, user)
+                return redirect('profile')
+        else:
+            error_message = 'Форма неверно заполнена.'
+    else:
+        form = LoginForm()
+
+    context = {
+        'form': form,
+        'error_message': error_message,
+    }
+    return render(request, 'registration/login.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'registration/logged_out.html', {})
+
 
 class MyPermission(BasePermission):
     _safe_methods = 'GET', 'HEAD', 'OPTIONS', 'PATCH'
@@ -128,7 +175,7 @@ def profile(request):
                 form_errors = 'An error occured, money amount was not specified!'
     else:
         form = AddFundsForm()
-    
+
     client_attrs = 'username', 'first_name', 'last_name', 'money'
     client_data = {attr: getattr(client, attr) for attr in client_attrs}
     return render(
@@ -138,6 +185,6 @@ def profile(request):
             'client_data': client_data,
             'form': form,
             'form_errors': form_errors,
-            'client_books': client.books.all(),
-        }
+            'client_sports': client.sports.all(),
+        },
     )

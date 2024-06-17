@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Competition',
                 'verbose_name_plural': 'Competitions',
                 'db_table': '"crud_api"."competition"',
-                'ordering': ['name', 'competition_start', 'competition_end'],
+                'ordering': ['competition_start', 'competition_end', 'name'],
             },
         ),
         migrations.CreateModel(
@@ -126,7 +126,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Stage',
                 'verbose_name_plural': 'Stages',
                 'db_table': '"crud_api"."stage"',
-                'ordering': ['name', 'stage_date'],
+                'ordering': ['stage_date', 'name'],
             },
         ),
         migrations.AddConstraint(

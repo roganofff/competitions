@@ -13,7 +13,12 @@
         <li><a href="{% url 'competitions' %}">Competitions</a></li>
         <li><a href="{% url 'sports' %}">Sports</a></li>
         <li><a href="{% url 'stages' %}">Stages</a></li>
-        <li><a href="{% url 'logout' %}?next={{request.path}}">Log out</a></li>
+        <li>
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">logout</button>
+          </form>
+        </li>
       {% else %}
         <li><a href="{% url 'register' %}?next={{request.path}}">Sign up</a></li>
         <li><a href="{% url 'login' %}?next={{request.path}}">Log in</a></li>
