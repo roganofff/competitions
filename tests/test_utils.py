@@ -1,10 +1,21 @@
+"""Module for testing utilities."""
 from datetime import date
+
 from django.test import TestCase
-from competitions_app.utils import luhn, expiry_date
+
+from competitions_app import config
+from competitions_app.utils import expiry_date, luhn
 
 
 class UtilsTest(TestCase):
+    """Test class creating tests.
+
+    Args:
+        TestCase: TestCase from django.
+    """
+
     def test_luhn(self):
+        """Test Luhn algorithm."""
         valid = [
             '000000018',
             '0000000000000000',
@@ -42,17 +53,34 @@ class UtilsTest(TestCase):
         for number in valid:
             with self.subTest(number):
                 self.assertTrue(luhn(number))
-        for number in invalid:
-            with self.subTest(number):
-                self.assertFalse(luhn(number))
+        for other_number in invalid:
+            with self.subTest(other_number):
+                self.assertFalse(luhn(other_number))
 
     def test_expiry_date(self):
+        """Test expiry date function."""
         tests = {
-            (2015, 6): date(2015, 6, 30),
-            (2016, 2): date(2016, 2, 29),
-            (2018, 2): date(2018, 2, 28),
-            (2018, 12): date(2018, 12, 31),
-            (2022, 9): date(2022, 9, 30),
+            (config.YEAR_TWENTY_FIFTEEN, 6): date(
+                config.YEAR_TWENTY_FIFTEEN,
+                6,
+                config.PRE_LAST_DAY,
+            ),
+            (config.YEAR_TWENTY_SIXTEEN, 2): date(
+                config.YEAR_TWENTY_SIXTEEN,
+                2,
+                config.TWENTY_NINE,
+            ),
+            (config.YEAR_TWENTY_EIGHTEEN, 2): date(
+                config.YEAR_TWENTY_EIGHTEEN,
+                2,
+                config.TWENTY_EIGTH,
+            ),
+            (config.YEAR_TWENTY_EIGHTEEN, 12): date(
+                config.YEAR_TWENTY_EIGHTEEN,
+                config.TWELVE,
+                config.DAY_LAST,
+            ),
+            (config.YEAR_TWENTY_TWO, 9): date(config.YEAR_TWENTY_TWO, 9, config.PRE_LAST_DAY),
         }
         for (year, month), days in tests.items():
             with self.subTest('{}-{}'.format(year, month)):

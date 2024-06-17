@@ -1,14 +1,34 @@
-from django import forms
-from competitions_app.forms import CardNumberField, CardExpiryField, SecurityCodeField
+"""Testing forms module."""
+from django import forms as dj_forms
+
+from competitions_app import forms
 
 
-class CardNumber(forms.Form):
-    number = CardNumberField()
+class CardNumber(dj_forms.Form):
+    """Test credit card number form.
+
+    Args:
+        forms (dj_forms.Form): A collection of Fields, plus their associated data.
+    """
+
+    number = forms.CardNumberField()
 
 
-class CardExpiry(forms.Form):
-    expiry = CardExpiryField()
+class CardExpiry(dj_forms.Form):
+    """Test credit card expiration date form.
+
+    Args:
+        forms (dj_forms.Form): A collection of Fields, plus their associated data.
+    """
+
+    expiry = forms.CardExpiryField()
 
 
-class CardCode(forms.Form):
-    code = SecurityCodeField()
+class CardCode(dj_forms.Form):
+    """Test credit card number form.
+
+    Args:
+        forms (dj_forms.Form): A collection of Fields, plus their associated data.
+    """
+
+    code = forms.SecurityCodeField()

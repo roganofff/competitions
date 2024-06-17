@@ -8,11 +8,13 @@
                 <li> {{key}}: {{value}} </li>
             {% endfor %}
         </ul>
-        {% if client_sports %}
-            <h4>Your sports:</h4>
+        {% if client_stages %}
+            <h4>Your bet history:</h4>
             <ul>
-                {% for sport in client_sports %}
-                    <li> <a href="{% url 'sport' %}?id={{ sport.id }}"> {{ sport.name }}</a> </li>
+                {% for stage in client_stages %}
+                    <li> <a href="{% url 'stage' %}?id={{ stage.id }}"> {{ stage.name }}</a> <br>
+                        the bet didn't work, you've lost!
+                    </li>
                 {% endfor %}
             </ul>
         {% else %}

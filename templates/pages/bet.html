@@ -1,0 +1,34 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h4> Ставка на событие: {{ stage.name }} </h4>
+    <h5> Коэффициент на положительный исход: <em>{{ stage.bet_coefficient }}</em> </h5>
+    <h5> У вас на балансе: {{ money }} </h5>
+    {% if money >= 100 %}
+        <form action="{% url 'bet' %}?id={{stage.id}}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Ставка!">
+        </form>
+    {% else %}
+        <h5>
+            Недостаточно средств. Вы можете попробовать пополнить баланс в <a href="{% url 'profile' %}">профиле</a>
+            или отдать почку в залог.
+        </h5>
+    {% endif %}
+
+    {% if form.errors %}
+        <h5>Cannot add money to your account!
+            <ul>
+                {% for key, values in form.errors.items %}
+                    {% for value in values %}
+                        <li>
+                            {{key}}: {{value}}
+                        </li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </h5>
+    {% endif %}
+
+{% endblock %}

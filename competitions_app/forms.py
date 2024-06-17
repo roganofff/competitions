@@ -1,29 +1,71 @@
-import datetime 
+"""Forms module."""
+import datetime
+
+from django import forms as dj_form
 from django.contrib.auth import forms, models
-from django.forms import DateField, Form, CharField, DecimalField, PasswordInput
-from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import Token
 
-from .widgets import ExpiryDateWidget, TelephoneInput
-
-from .validators import CCNumberValidator, CSCValidator, ExpiryDateValidator
+from competitions_app import config
 
 from . import utils
+from .validators import CCNumberValidator, CSCValidator, ExpiryDateValidator
+from .widgets import ExpiryDateWidget, TelephoneInput
+
+
+class MakeBetForm(dj_form.Form):
+    """Betting form.
+
+    Args:
+        Form: Forms module.
+    """
+
+    bet_amount = dj_form.DecimalField(
+        decimal_places=config.DIGIT_PLACES,
+        max_digits=config.MONEY_MAX_DIGITS,
+    )
+
+    def is_valid(self) -> bool:
+        """Validate the form.
+
+        Returns:
+            bool: True if the form is valid, False if is not.
+        """
+        standard_valid = super().is_valid()
+        bet_amount = self.cleaned_data.get('bet_amount')
+        bet_amount_valid = True
+        if bet_amount < 100:
+            bet_amount_valid = False
+            error_list = [_('amount value should be equal or greater than a hundred')]
+            if self.errors.get('Bet amount'):
+                self.errors['Bet amount'] += error_list
+            else:
+                self.errors['Bet amount'] = error_list
+
+        return standard_valid and bet_amount_valid
 
 
 class Registration(forms.UserCreationForm):
-    first_name = CharField(max_length=100, required=True)
-    last_name = CharField(max_length=100, required=True)
-    email = CharField(max_length=100, required=True)
+    """Registation form.
+
+    Args:
+        forms (UserCreationForm): base for the registration form.
+    """
+
+    first_name = dj_form.CharField(max_length=100, required=True)
+    last_name = dj_form.CharField(max_length=100, required=True)
+    email = dj_form.CharField(max_length=100, required=True)
 
     class Meta:
+        """Class for meta data and fields."""
+
         model = models.User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
 
-class LoginForm(Form):
+class LoginForm(dj_form.Form):
     """
     Form for logging in a user.
 
@@ -35,8 +77,8 @@ class LoginForm(Form):
         password (CharField): ACharField for entering a password.
     """
 
-    username = CharField(label='Login')
-    password = CharField(label='Password', widget=PasswordInput)
+    username = dj_form.CharField(label='Login')
+    password = dj_form.CharField(label='Password', widget=dj_form.PasswordInput)
 
     def clean(self):
         """
@@ -100,86 +142,160 @@ class LoginForm(Form):
         user.save()
 
 
-class CardNumberField(CharField):
+class CardNumberField(dj_form.CharField):
+    """Credit card number field.
+
+    Args:
+        CharField: Forms module.
+    """
+
     widget = TelephoneInput
     default_validators = [
-        MinLengthValidator(12),
-        MaxLengthValidator(19),
+        MinLengthValidator(config.MINLENGTHVALIDATOR),
+        MaxLengthValidator(config.MAXLENGTHVALIDATOR),
         CCNumberValidator(),
     ]
 
-    def to_python(self, value):
-        return utils.get_digits(super().to_python(value))
+    def to_python(self, field):
+        """Translate field to python.
+
+        Args:
+            field: field to translate.
+
+        Returns:
+            str: all digits from input string.
+        """
+        return utils.get_digits(super().to_python(field))
 
     def widget_attrs(self, widget):
+        """Gather attributes for widget.
+
+        Args:
+            widget (TelephoneInput): telephone input.
+
+        Returns:
+            dict[str, str]: widget attributes.
+        """
         attrs = super().widget_attrs(widget)
         attrs.update({
             'pattern': r'[-\d\s]*',
             'autocomplete': 'cc-number',
-            'autocorrect': 'off',
-            'spellcheck': 'off',
-            'autocapitalize': 'off',
+            'autocorrect': config.OFF,
+            'spellcheck': config.OFF,
+            'autocapitalize': config.OFF,
         })
         return attrs
 
 
-class CardExpiryField(DateField):
+class CardExpiryField(dj_form.DateField):
+    """Credit card expiration date field.
+
+    Args:
+        DateField: Forms module.
+    """
+
     widget = ExpiryDateWidget
     input_formats = ['%m/%y', '%m/%Y']
     default_validators = [ExpiryDateValidator()]
 
-    def prepare_value(self, value):
-        if isinstance(value, (datetime.date, datetime.datetime)):
-            return value.strftime('%m/%y')
-        return value
+    def prepare_value(self, field):
+        """Set the value to correct form.
 
-    def to_python(self, value):
-        value = super().to_python(value)
-        if isinstance(value, datetime.date):
-            value = utils.expiry_date(value.year, value.month)
-        return value
+        Args:
+            field: field to change.
+
+        Returns:
+            str: new form of value.
+        """
+        if isinstance(field, (datetime.date, datetime.datetime)):
+            return field.strftime('%m/%y')
+        return field
+
+    def to_python(self, field):
+        """Translate field to python.
+
+        Args:
+            field: field to translate.
+
+        Returns:
+            str: all digits from input string.
+        """
+        field = super().to_python(field)
+        if isinstance(field, datetime.date):
+            field = utils.expiry_date(field.year, field.month)
+        return field
 
     def widget_attrs(self, widget):
+        """Gather attributes for widget.
+
+        Args:
+            widget (TelephoneInput): telephone input.
+
+        Returns:
+            dict[str, str]: widget attributes.
+        """
         attrs = super().widget_attrs(widget)
         attrs.update({
             'pattern': r'\d+/\d+',
             'placeholder': 'MM/YY',
             'autocomplete': 'cc-exp',
-            'autocorrect': 'off',
-            'spellcheck': 'off',
-            'autocapitalize': 'off',
+            'autocorrect': config.OFF,
+            'spellcheck': config.OFF,
+            'autocapitalize': config.OFF,
         })
         return attrs
 
 
-class SecurityCodeField(CharField):
+class SecurityCodeField(dj_form.CharField):
+    """Credit card security code field.
+
+    Args:
+        CharField: Forms module.
+    """
+
     widget = TelephoneInput
     default_validators = [CSCValidator()]
 
     def widget_attrs(self, widget):
+        """Gather attributes for widget.
+
+        Args:
+            widget (TelephoneInput): telephone input.
+
+        Returns:
+            dict[str, str]: widget attributes.
+        """
         attrs = super().widget_attrs(widget)
         attrs.update({
             'pattern': r'\d*',
             'autocomplete': 'cc-csc',
-            'autocorrect': 'off',
-            'spellcheck': 'off',
-            'autocapitalize': 'off',
+            'autocorrect': config.OFF,
+            'spellcheck': config.OFF,
+            'autocapitalize': config.OFF,
         })
         return attrs
 
 
-class AddFundsForm(Form):
+class AddFundsForm(dj_form.Form):
+    """Adding funds form.
+
+    Args:
+        Form: Forms module.
+    """
+
     cc_number = CardNumberField(label='Card Number')
     cc_expiry = CardExpiryField(label='Expiration Date')
     cc_code = SecurityCodeField(label='CVV/CVC')
-    amount = DecimalField(decimal_places=2, max_digits=8)
+    amount = dj_form.DecimalField(decimal_places=2, max_digits=8)
 
     def is_valid(self) -> bool:
+        """Validate the form.
+
+        Returns:
+            bool: True if the form is valid, False if is not.
+        """
         standard_valid = super().is_valid()
         amount = self.cleaned_data.get('amount')
-        cc_number = self.cleaned_data.get('cc_number')
-        cc_expiry = self.cleaned_data.get('cc_expiry')
-        cc_code = self.cleaned_data.get('cc_code')
         amount_positive = True
         if amount and amount < 0:
             amount_positive = False
@@ -188,7 +304,5 @@ class AddFundsForm(Form):
                 self.errors['Amount'] += error_list
             else:
                 self.errors['Amount'] = error_list
-        
 
         return standard_valid and amount_positive
-    
