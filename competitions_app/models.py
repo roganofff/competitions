@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import random
 from uuid import uuid4
 
 from django.core.exceptions import ValidationError
@@ -11,10 +12,19 @@ from django.conf.global_settings import AUTH_USER_MODEL
 MAX_LENGTH_NAME = 100
 MAX_LENGTH_DESCRIPTION = 200
 MAX_LENGTH_PLACE = 150
+DECIMAL_PLACES = 2
+MAX_DIGITS = 5
 
 
 def _get_datetime():
     return datetime.now(timezone.utc)
+
+
+def _get_random_bet_coefficient():
+    is_big_coef = random.uniform(0, 1) > 0.7
+    if is_big_coef:
+        return round(random.uniform(3, 12), 2)
+    return round(random.uniform(1, 3), 2)
 
 
 def _check_created(dt: datetime):
@@ -90,12 +100,16 @@ class Competition(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
 
     sports = models.ManyToManyField('Sport', verbose_name=_('sports'), through='CompetitionsSports')
 
+    @property
+    def obj_name(self):
+        return self.name
+
     def __str__(self) -> str:
         return f'{self.name}: {self.competition_start}—{self.competition_end}.'
 
     class Meta:
         db_table = '"crud_api"."competition"'
-        ordering = ['name', 'competition_start', 'competition_end']
+        ordering = ['competition_start', 'competition_end', 'name']
         verbose_name = _('Competition')
         verbose_name_plural = _('Competitions')
         constraints = [
@@ -116,6 +130,10 @@ class Sport(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
 
     competitions = models.ManyToManyField(Competition, verbose_name=_('competitions'), through='CompetitionsSports')
 
+    @property
+    def obj_name(self):
+        return self.name
+
     def __str__(self) -> str:
         return f'{self.name}. {self.description}'
 
@@ -129,6 +147,15 @@ class Sport(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
 class Stage(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
     stage_date = models.DateField(_('stage_date'), null=False, blank=False, default=_get_datetime)
     place = models.TextField(_('place'), null=True, blank=True, max_length=MAX_LENGTH_PLACE)
+
+    bet_coefficient = models.DecimalField(
+        _('bet_coefficient'),
+        null=False,
+        blank=False,
+        decimal_places=DECIMAL_PLACES,
+        max_digits=MAX_DIGITS,
+        default=_get_random_bet_coefficient,
+    )
     
     comp_sport = models.ForeignKey(
         'CompetitionsSports',
@@ -149,7 +176,7 @@ class Stage(UUIDMixin, NameMixin, CreatedMixin, ModifiedMixin):
 
     class Meta:
         db_table = '"crud_api"."stage"'
-        ordering = ['name', 'stage_date']
+        ordering = ['stage_date','name']
         verbose_name = _('Stage')
         verbose_name_plural = _('Stages')
 
@@ -173,6 +200,8 @@ class CompetitionsSports(UUIDMixin, CreatedMixin, ModifiedMixin):
         verbose_name = _('relationship competition sports')
         verbose_name_plural = _('relationships competition sports')
 
+    def __str__(self) -> str:
+        return f'{self.competition_id}: {self.sport_id.obj_name}'
 
 class Client(UUIDMixin, CreatedMixin, ModifiedMixin):
     money = models.DecimalField(

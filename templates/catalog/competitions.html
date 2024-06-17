@@ -8,7 +8,8 @@
 
       {% for competition in competitions_list %}
       <li>
-        <a href="{% url 'competition'%}?id={{competition.id}}">{{ competition.name }}</a> {{competition.competition_start}} {{competition.end}}
+        <a href="{% url 'competition'%}?id={{competition.id}}">{{ competition.name }}</a> <br>
+        {{competition.competition_start}} {{competition.competition_end}}
       </li>
       {% endfor %}
     </ul>

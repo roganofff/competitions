@@ -1,0 +1,48 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    {% if client_data %}
+        <h5>Your profile data:</h5>
+        <ul>
+            {% for key, value in client_data.items %}
+                <li> {{key}}: {{value}} </li>
+            {% endfor %}
+        </ul>
+        {% if client_sports %}
+            <h4>Your sports:</h4>
+            <ul>
+                {% for sport in client_sports %}
+                    <li> <a href="{% url 'sport' %}?id={{ sport.id }}"> {{ sport.name }}</a> </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h4>You have not beted any sports yet.</h4>
+        {% endif %}
+
+    {% else %}
+        <p>No client data to show..</p>
+    {% endif %}
+
+    <h4> To add funds to your account please use form below: </h4>
+
+    {% if form.errors %}
+        <h5>
+            Cannot add money to your account!
+            <ul>
+                {% for key, values in form.errors.items %}
+                    {% for value in values %}
+                        <li>
+                            {{key}}: {{value}}
+                        </li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </h5>
+    {% endif %}
+
+    <form action="/profile/" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Add funds">
+    </form>
+{% endblock %}
