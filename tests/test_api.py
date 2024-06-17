@@ -1,21 +1,38 @@
+"""Module for testing the API."""
 from datetime import date
-from uuid import UUID
-from django.test import TestCase
+
 from django.contrib.auth.models import User
-from rest_framework.test import APIClient
+from django.test import TestCase
 from rest_framework import status
 from rest_framework.authtoken.models import Token
+from rest_framework.test import APIClient
 
-from competitions_app.models import Competition, Sport, Stage, CompetitionsSports
+from competitions_app import config
+from competitions_app.models import Competition, Sport, Stage
+
+TEST_USERNAME = 'abcdef'
+TEST_SUPERUSERNAME = 'admin'
 
 
 def create_api_test(model, url, creation_attrs):
+    """Create test for API.
+
+    Args:
+        model (models): database model to test.
+        url (str): API endpoint.
+        creation_attrs (dict): attributes requiered to create model instance.
+
+    Returns:
+        ApiTest: TestCase for Django tests.
+    """
     class ApiTest(TestCase):
         def setUp(self) -> None:
             self.client = APIClient()
-            self.user = User.objects.create(username='abc', password='abc')
+            self.user = User.objects.create(username=TEST_USERNAME, password=config.TEST_PASSWORD)
             self.superuser = User.objects.create(
-                username='admin', password='admin', is_superuser=True,
+                username=TEST_SUPERUSERNAME,
+                password=config.TEST_SUPERUSERPASSWORD,
+                is_superuser=True,
             )
             self.user_token = Token(user=self.user)
             self.superuser_token = Token(user=self.superuser)
@@ -61,9 +78,13 @@ def create_api_test(model, url, creation_attrs):
     return ApiTest
 
 
-competition_attrs = {'name': 'abc', 'competition_start': date(1936, 8, 1), 'competition_end': date(1936, 8, 16)}
+competition_attrs = {
+    'name': 'abc',
+    'competition_start': date(config.TEST_YEAR, 8, 1),
+    'competition_end': date(config.TEST_YEAR, 8, 10),
+}
 sport_attrs = {'name': 'def'}
-stage_attrs = {'name': 'ghi', 'stage_date': date(1936, 8, 4)}
+stage_attrs = {'name': 'ghi', 'stage_date': date(config.TEST_YEAR, 8, 4)}
 
 base_url = '/api/'
 CompetitionApiTest = create_api_test(Competition, f'{base_url}competitions/', competition_attrs)

@@ -1,15 +1,12 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Sport page</h1>
+    <h1>Sport</h1>
 
     {% if sport %}
     <ul>
-
-      <li>
-        <a>Name: {{ sport.name }}</a><br>
-        <a>Description: {{ sport.description }}</a><br>
-      </li>
+      <a>Name: {{ sport.name }}</a><br>
+      <a>Description: {{ sport.description }}</a><br>
     </ul>
     {{stages}}
     <h2>Предстоящие этапы по спорту:</h2>

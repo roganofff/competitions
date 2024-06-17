@@ -1,40 +1,96 @@
+"""Module for Django admin panel."""
 from django.contrib import admin
 
-from .models import Competition, CompetitionsSports, Sport, Stage, Client, SportClient
+import competitions_app.models as models
 
 
 class StageInline(admin.TabularInline):
-    model = Stage
+    """Stage inline for admin panel.
+
+    Args:
+        admin (TabularInline): tabular inline.
+    """
+
+    model = models.Stage
     extra = 1
+
 
 class CompetitionsSportsInline(admin.TabularInline):
-    model = CompetitionsSports
+    """Competitions Sports inline for admin panel.
+
+    Args:
+        admin (TabularInline): tabular inline.
+    """
+
+    model = models.CompetitionsSports
     extra = 1
 
-class SportClientInline(admin.TabularInline):
-    model = SportClient
+
+class StageClientInline(admin.TabularInline):
+    """Stage client inline for admin panel.
+
+    Args:
+        admin (TabularInline): tabular inline.
+    """
+
+    model = models.StageClient
     extra = 1
 
-@admin.register(Client)
+
+@admin.register(models.Client)
 class ClientAdmin(admin.ModelAdmin):
-    model = Client
-    inlines = (SportClientInline,)
+    """Client admin panel.
 
-@admin.register(Competition)
+    Args:
+        admin (ModelAdmin): Encapsulate all admin options and functionality for a given model.
+    """
+
+    model = models.Client
+    inlines = (StageClientInline,)
+
+
+@admin.register(models.Competition)
 class CompetitionAdmin(admin.ModelAdmin):
-    model = Competition
+    """Competition admin panel.
+
+    Args:
+        admin (ModelAdmin): Encapsulate all admin options and functionality for a given model.
+    """
+
+    model = models.Competition
     inlines = (CompetitionsSportsInline,)
 
-@admin.register(Sport)
+
+@admin.register(models.Sport)
 class SportAdmin(admin.ModelAdmin):
-    model = Sport
+    """Sport admin panel.
+
+    Args:
+        admin (ModelAdmin): Encapsulate all admin options and functionality for a given model.
+    """
+
+    model = models.Sport
     inlines = (CompetitionsSportsInline,)
 
-@admin.register(CompetitionsSports)
+
+@admin.register(models.CompetitionsSports)
 class CompetitionsSportsAdmin(admin.ModelAdmin):
-    model = CompetitionsSports
+    """Competitions Sports admin panel.
+
+    Args:
+        admin (ModelAdmin): Encapsulate all admin options and functionality for a given model.
+    """
+
+    model = models.CompetitionsSports
     inlines = (StageInline,)
 
-@admin.register(Stage)
+
+@admin.register(models.Stage)
 class StageAdmin(admin.ModelAdmin):
-    model = Stage
+    """Stage admin panel.
+
+    Args:
+        admin (ModelAdmin): Encapsulate all admin options and functionality for a given model.
+    """
+
+    model = models.Stage

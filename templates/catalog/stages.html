@@ -8,7 +8,8 @@
 
       {% for stage in stages_list %}
       <li>
-        <a href="{% url 'stage'%}?id={{stage.id}}">{{ stage.name }}</a> {{ stage.place }} {{ stage.stage_date }}
+        <a href="{% url 'stage'%}?id={{stage.id}}">{{ stage.name }}</a> {{ stage.place }} <br>
+        {{ stage.stage_date }}
       </li>
       {% endfor %}
     </ul>
