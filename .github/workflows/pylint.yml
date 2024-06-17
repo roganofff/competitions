@@ -28,7 +28,7 @@ jobs:
             POSTGRES_USER: crud_hw
             POSTGRES_HOST: 127.0.0.1
         ports:
-          - 38700:5432
+          - 38700
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -37,20 +37,36 @@ jobs:
           --health-retries 5
     steps:
     - uses: actions/checkout@v2
-    - name: Download Python
+    - name: Установка Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.10.12
-    - name: Download dependencies
+        python-version: "3.10.12"
+    - name: Установка модулей и зависимостей
       run: |
+        python -m pip install Pillow
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Pytest
-      env:
-        POSTGRES_PASSWORD: crud_hw
-        POSTGRES_USER: crud_hw
-        POSTGRES_DBNAME: crud_hw
-        POSTGRES_HOST: 127.0.0.1
-        POSTGRES_PORT: 38700
+    - name: Тесты models
       run: |
-        python3 manage.py test tests
+        chmod +x tests/test.sh
+        ./tests/test.sh tests.test_models
+    - name: Тесты views
+      run: |
+        chmod +x tests/test.sh
+        ./tests/test.sh tests.test_views
+    - name: Тесты api
+      run: |
+        chmod +x tests/test.sh
+        ./tests/test.sh tests.test_api
+    - name: Тесты forms
+      run: |
+        chmod +x tests/test.sh
+        ./tests/test.sh tests.test_forms
+    - name: Тесты profile
+      run: |
+        chmod +x tests/test.sh
+        ./tests/test.sh tests.test_utils
+    - name: Тесты add funds
+      run: |
+        chmod +x tests/test.sh
+        ./tests/test.sh tests.test_add_funds
