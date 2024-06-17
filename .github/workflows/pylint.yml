@@ -23,10 +23,10 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DBNAME: crud_hw       
-          POSTGRES_PASSWORD: crud_hw
-          POSTGRES_USER: crud_hw
-          POSTGRES_HOST: 127.0.0.1
+            POSTGRES_DB: crud_hw       
+            POSTGRES_PASSWORD: crud_hw
+            POSTGRES_USER: crud_hw
+            POSTGRES_HOST: 127.0.0.1
         ports:
           - 38700:5432
         # Set health checks to wait until postgres has started
@@ -46,5 +46,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Pytest
+      env:
+        POSTGRES_PASSWORD: crud_hw
+        POSTGRES_USER: crud_hw
+        POSTGRES_DBNAME: crud_hw
+        POSTGRES_HOST: 127.0.0.1
+        POSTGRES_PORT: 38700
       run: |
-        python3 manage.py test   tests
+        python3 manage.py test tests
