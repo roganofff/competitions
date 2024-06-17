@@ -124,7 +124,7 @@ def create_view(model_class, context_name, template):
 
 competition_view = create_view(Competition, 'competition', 'entities/competition.html')
 sport_view = create_view(Sport, 'sport', 'entities/sport.html')
-stage_view = create_view(Stage, config.STAGES, 'entities/stage.html')
+stage_view = create_view(Stage, config.STAGE, 'entities/stage.html')
 
 
 def register(request):
@@ -357,7 +357,7 @@ def make_bet(request):
         'pages/bet.html',
         {
             'money': client.money,
-            config.STAGES: stage,
+            config.STAGE: stage,
             config.FORM: form,
             'form_error': form_error,
         },

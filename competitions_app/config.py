@@ -45,5 +45,6 @@ PAST_YEAR = 2007
 
 ALL = '__all__'
 STAGES = 'stages'
+STAGE = 'stage'
 FORM = 'form'
 POST = 'POST'
